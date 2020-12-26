@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="EraseDate" representedClassName="EraseDate" syncable="YES" codeGenerationType="class">
+        <attribute name="eraseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="ImagesTable" representedClassName="ImagesTable" syncable="YES" codeGenerationType="class">
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ProductsTable" representedClassName="ProductsTable" syncable="YES" codeGenerationType="class">
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="productDescription" optional="YES" attributeType="String"/>
+        <attribute name="productId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ProfileTable" representedClassName="ProfileTable" syncable="YES" codeGenerationType="class">
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="portrait" optional="YES" attributeType="Binary"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ReviewsTable" representedClassName="ReviewsTable" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="productId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rate" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reviewId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="EraseDate" positionX="-18" positionY="27" width="128" height="58"/>
+        <element name="ImagesTable" positionX="0" positionY="54" width="128" height="73"/>
+        <element name="ProductsTable" positionX="-54" positionY="-9" width="128" height="103"/>
+        <element name="ProfileTable" positionX="-63" positionY="-18" width="128" height="28"/>
+        <element name="ReviewsTable" positionX="-36" positionY="9" width="128" height="148"/>
+    </elements>
+</model>

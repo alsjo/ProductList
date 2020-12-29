@@ -37,7 +37,8 @@ class CommentCell: UITableViewCell {
 			
 			self?.ratingView.rating = 0.0
 			self?.ratingView.text = ""
-			self?.initUI()
+			self?.ivImage.image = blankFace
+			//self?.initUI()
 			//self?.layoutIfNeeded()
 		}
 	}
@@ -61,17 +62,17 @@ class CommentCell: UITableViewCell {
 	}
 	
 	func updateText(text: String, animated: Bool = true) {
-		DispatchQueue.main.async { [weak self] in
+	//	DispatchQueue.main.async { [weak self] in
 			if animated {
 				UIView.animate(withDuration: 0.2) {
-					self?.tvText.text = text
+					self.tvText.text = text
 				}
 			} else {
-				self?.tvText.text = text
+				self.tvText.text = text
 
 			}
 			
-		}
+		//}
 	}
 	
 	func updateImage(image: UIImage, animated: Bool = true, row: Int = -1) {
@@ -106,9 +107,9 @@ class CommentCell: UITableViewCell {
 		self.tvText.text = ""
 		//self.tvText.sizeToFit()
 		self.lbName.text = ""
-		//self.ivImage.layer.cornerRadius = 40
+		self.ivImage.layer.cornerRadius = self.ivImage.frame.size.width/2
 		self.ivImage.image = blankFace
-		self.layoutIfNeeded()
+		//self.layoutIfNeeded()
 	}
 
 	

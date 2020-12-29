@@ -45,6 +45,7 @@ protocol DatabaseProtocol: class {
 	func clearData()
 	func clearProducts()
 	func clearReviews()
+	func clearReviews(for productId: Int)
 	func getReviews(productId: Int, completion: @escaping ([ReviewTableModel]?)->())
 	func saveProducts(products: [ProductTableModel])
 	func saveReviews(reviews: [ReviewTableModel])
@@ -136,13 +137,33 @@ extension Database: DatabaseProtocol {
 			}
 		}
 	}
-	
+	//fetchRequest.predicate = NSPredicate(format: "productId == %d", productId )
 	public func clearReviews(){
 		let reviewsFetchRequest = NSFetchRequest<ReviewsTable>(entityName: "ReviewsTable")
 		let reviewsDeleteRequest = NSBatchDeleteRequest(fetchRequest: reviewsFetchRequest as! NSFetchRequest<NSFetchRequestResult>)
 		persistentContainer.performBackgroundTask { (backgroundContext) in
 			do {
 				_ = try backgroundContext.execute(reviewsDeleteRequest)
+			} catch let error as NSError {
+				print ("Could not delete. \(error), \(error.userInfo)")
+			}
+		}
+	}
+	
+	public func clearReviews(for productId: Int) {
+		let reviewsFetchRequest = NSFetchRequest<ReviewsTable>(entityName: "ReviewsTable")
+		reviewsFetchRequest.predicate = NSPredicate(format: "productId == %d", productId )
+		persistentContainer.performBackgroundTask { (backgroundContext) in
+			do {
+				let objects  = try backgroundContext.fetch(reviewsFetchRequest)
+				for obj in objects{
+					backgroundContext.delete(obj)
+				}
+				do {
+					try backgroundContext.saveIfNeeded()
+				} catch let error as NSError {
+					print("Could not save. \(error), \(error.userInfo)")
+				}
 			} catch let error as NSError {
 				print ("Could not delete. \(error), \(error.userInfo)")
 			}
@@ -252,24 +273,7 @@ extension Database: DatabaseProtocol {
 			}
 		}
 	}
-	
-	
-//	let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Alert")
-//
-//	fetchRequest.predicate = NSPredicate(format: "creationDate = %@ AND alertType = %&",
-//	argumentArray: [creationDate, alertType])
-//	do {
-//		let results = try context.fetch(fetchRequest) as? [NSManagedObject]
-//		if results?.count != 0 { // Atleast one was returned
-//
-//		// In my case, I only updated the first item in results
-//		results[0].setValue(yourValueToBeSet, forKey: "yourCoreDataAttribute")
-//		}
-//	} catch {
-//		print("Fetch Failed: \(error)")
-//	}
 
-	
 	public func saveProfile(profile: ProfileTableModel) {
 		persistentContainer.performBackgroundTask { (backgroundContext) in
 			let fetchRequest = NSFetchRequest<ProfileTable>(entityName: "ProfileTable")

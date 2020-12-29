@@ -128,9 +128,9 @@ extension ProductsViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: false)
 		if let product = self.dataProvider.dataStore.productItems[indexPath.row] {
-			if self.dataProvider.dataStore.isLoggedIn {
-				goToReview(productId: indexPath.row)
-			}
+			
+			goToReview(productId: indexPath.row)
+			
 		}
 	}
 }
@@ -176,9 +176,7 @@ extension ProductsViewController: UITableViewDataSource {
 					cell.updateImage(image: image, animated: true, row: indexPath.row)
 					cell.updateTitle(row: row, section: section, title: nil)
 				}
-				else {
-					print("willDisplay fuck up prevented")
-				}
+				
 				self.productImageLoadingOperations.removeValue(forKey: indexPath)
 			}
 			

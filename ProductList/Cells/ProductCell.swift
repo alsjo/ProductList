@@ -34,8 +34,8 @@ class ProductCell: UITableViewCell {
 	override func prepareForReuse() {
 		DispatchQueue.main.async {  [unowned self] in
 			self.ivProductImage.image = nil
-			self.ivProductImage.backgroundColor = UIColor.randomColor()
-			self.tvDescription.text = ""
+			//self.ivProductImage.backgroundColor = UIColor.randomColor()
+			//self.tvDescription.text = ""
 			self.lbTitle.text = ""
 			
 		}
@@ -60,16 +60,16 @@ class ProductCell: UITableViewCell {
 	}
 	
 	func updateDescription(description: String, animated: Bool = true) {
-		DispatchQueue.main.async { [weak self] in
+		//DispatchQueue.main.async { [weak self] in
 			if animated {
 				UIView.animate(withDuration: 0.2) {
-					self?.tvDescription.text = description
+					self.tvDescription.text = description
 				}
 			} else {
-				self?.tvDescription.text = description
+				self.tvDescription.text = description
 			}
 			
-		}
+	//	}
 	}
 	
 	func updateImage(image: UIImage, animated: Bool = true, row: Int = -1, section: Int = -1) {

@@ -175,12 +175,12 @@
 				FA164A3E2573CF7900BC0762 /* SceneDelegate.swift */,
 				FA164A402573CF7900BC0762 /* ViewController.swift */,
 				FA164A422573CF7900BC0762 /* Main.storyboard */,
+				FA164A71257A989C00BC0762 /* LoginViewController.swift */,
 				FA164A73257A98C600BC0762 /* ProfileViewController.swift */,
 				FA164A75257A98E600BC0762 /* ProductsViewController.swift */,
+				FA164A83257AA2B100BC0762 /* CommentsViewController.swift */,
 				FA164A79257A9C0A00BC0762 /* CommentInputViewController.swift */,
 				FA72E2A0259399EB0009862D /* Cells */,
-				FA164A83257AA2B100BC0762 /* CommentsViewController.swift */,
-				FA164A71257A989C00BC0762 /* LoginViewController.swift */,
 				FA164A6F2574181300BC0762 /* CommentInput.xib */,
 				FA164A482573CF7C00BC0762 /* Assets.xcassets */,
 				FA164A4A2573CF7C00BC0762 /* LaunchScreen.storyboard */,
@@ -601,6 +601,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XKZLN9QQCQ;
 				INFOPLIST_FILE = ProductList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -619,6 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XKZLN9QQCQ;
 				INFOPLIST_FILE = ProductList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

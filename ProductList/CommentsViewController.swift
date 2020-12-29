@@ -29,16 +29,20 @@ class CommentsViewController: UIViewController {
 					self?.hud.dismiss()
 					self?.setupTableView()
 					self?.tableView.reloadData()
-//					self?.tableView.layoutIfNeeded()
-//					self?.tableView.beginUpdates()
-//					self?.tableView.endUpdates()
-					
 				}
 			}
 		}
         // Do any additional setup after loading the view.
     }
-    
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.btAddComment.isEnabled = self.dataProvider.dataStore.isLoggedIn
+	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		self.dataProvider.dataStore.reviewItems.removeAll()
+	}
 
     /*
     // MARK: - Navigation
@@ -55,41 +59,43 @@ class CommentsViewController: UIViewController {
 	}
 	
 	func goToReviewInput(){
-		// Register Nib
-		let vc = CommentInputViewController(nibName: "CommentInput", bundle: nil)
-		vc.onSubmit = { [weak self] rating, text in
-			if let productId = self?.productId
-			{
-				self?.dataProvider.sendReview(productId: productId, rate: rating, text: text, completion: { (success) in
-					if success {
-						print("review has been submitted")
-						self?.dataProvider.getReviews(productId: productId, completion: { (success) in
-							if success {
-								print("reviews have been updated")
-								DispatchQueue.main.async { [weak self] in
-									self?.tableView.reloadData()
+		if !self.dataProvider.dataStore.isLoggedIn {
+			//not logged in
+			print("not logged in")
+		}
+		else {
+			// Register Nib
+			let vc = CommentInputViewController(nibName: "CommentInput", bundle: nil)
+			vc.onSubmit = { [weak self] rating, text in
+				if let productId = self?.productId
+				{
+					self?.dataProvider.sendReview(productId: productId, rate: rating, text: text, completion: { (success) in
+						if success {
+							print("review has been submitted")
+							self?.dataProvider.getReviews(productId: productId, completion: { (success) in
+								if success {
+									print("reviews have been updated")
+									DispatchQueue.main.async { [weak self] in
+										self?.tableView.reloadData()
+									}
 								}
-							}
-							else{
-								print("Unable to update reviews :(")
-							}
-						})
-					} else
-					{
-						print("review has not been submitted :(")
-					}
-				})
+								else{
+									print("Unable to update reviews :(")
+								}
+							})
+						} else
+						{
+							print("review has not been submitted :(")
+						}
+					})
+				}
+			}
+			// Present View "Modally"
+			DispatchQueue.main.async { [weak self] in
+				self?.present(vc, animated: true, completion: nil)
 			}
 		}
-		// Present View "Modally"
-		DispatchQueue.main.async { [weak self] in
-			self?.present(vc, animated: true, completion: nil)
-		}
-//		let sampleStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//		let vc = sampleStoryBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-//		DispatchQueue.main.async { [weak self] in
-//			self?.navigationController?.pushViewController(vc, animated: true)
-//		}
+
 	}
 	
 	func setupTableView(){
@@ -105,49 +111,12 @@ extension CommentsViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: false)
 	}
-//	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//		return UITableView.automaticDimension
-//	}
-//
-//	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//		return 300
-//	}
 }
 
 extension CommentsViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return  self.dataProvider.dataStore.reviewItems.count
-	}
-	
-	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		
-		
-		guard let cell = cell as? CommentCell else { return }
-		if let name = self.dataProvider.dataStore.reviewItems[indexPath.row]?.fullName {
-			cell.updateName(name: name, animated: false)
-		}
-		
-		if let text = self.dataProvider.dataStore.reviewItems[indexPath.row]?.text {
-			cell.updateText(text:text, animated: false)
-		}
-		
-		if let rating = self.dataProvider.dataStore.reviewItems[indexPath.row]?.rate {
-			
-			cell.updateRating(rating: rating, animated: false)
-		}
-		
-		if let username = self.dataProvider.dataStore.reviewItems[indexPath.row]?.username  {
-			if username == self.dataProvider.dataStore.userProfile?.username {
-				if let image = self.dataProvider.dataStore.userProfile?.portrait {
-					cell.updateImage(image: image, animated: false, row: indexPath.row)
-				}
-			}
-		}
-		cell.layoutIfNeeded()
-			
-		
-		
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -174,9 +143,6 @@ extension CommentsViewController: UITableViewDataSource {
 				}
 			}
 		}
-		cell.sizeToFit() 
-		//cell.setNeedsLayout()
-		//cell.layoutIfNeeded()
 		return cell
 	}
 	

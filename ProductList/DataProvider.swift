@@ -65,6 +65,7 @@ class DataProvider: DataProviderProtocol {
 		
 		do {
 			try reachability.startNotifier()
+			print("reachability notifier started")
 		} catch {
 			print("Unable to start notifier")
 		}
@@ -73,6 +74,7 @@ class DataProvider: DataProviderProtocol {
 	
 	deinit {
 		reachability.stopNotifier()
+		print("reachability notifier stopped")
 	}
 	
 	func setProfilePortrait(image: UIImage) {
@@ -129,7 +131,7 @@ class DataProvider: DataProviderProtocol {
 					}
 					self?.dataStore.reviewItems.removeAll()
 					self?.dataStore.reviewItems.append( reviewTableModels)
-					self?.database.clearReviews()
+					self?.database.clearReviews(for: productId)
 					self?.database.saveReviews(reviews: reviewTableModels)
 					completion(true)
 				
@@ -168,9 +170,8 @@ class DataProvider: DataProviderProtocol {
 					var productTableModels = [ProductTableModel]()
 					let formatter = DateFormatter()
 					formatter.dateFormat = "YYYY-MM-DD'T'HH:mm:ss.SSS'Z'"
-					
+					self?.dataStore.productImageUrls.removeAll()
 					for p in products {
-						//ProductTableModel(image: p.img, title: p.title, productDescription: p.text, productId: p.id)
 						productTableModels.append(ProductTableModel(imgageUrl: p.img,
 																	title: p.title,
 																	productDescription: p.text,
@@ -195,7 +196,13 @@ class DataProvider: DataProviderProtocol {
 					
 					if  products.count > 0 {
 						self?.dataStore.productItems.removeAll()
+						self?.dataStore.productImageUrls.removeAll()
 						self?.dataStore.productItems.append(products)
+						for p in products{
+							if let imageUrl = URL(string: ("\(self?.api.imgUrl ?? "")\( p.imgageUrl)")){
+								self?.dataStore.productImageUrls.append(imageUrl)
+							}
+						}
 						completion(true)
 					}
 					else{

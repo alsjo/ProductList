@@ -21,13 +21,14 @@ class CommentsViewController: UIViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		self.navigationItem.title = "Reviews"
+		setupTableView()
 		if let productId = self.dataProvider.dataStore.productItems[productIndex]?.productId {
 			self.productId = productId
 			hud.show(in: self.view)
 			self.dataProvider.getReviews(productId: productId) { [weak self] (success) in
 				DispatchQueue.main.async { [weak self] in
 					self?.hud.dismiss()
-					self?.setupTableView()
+					//self?.setupTableView()
 					self?.tableView.reloadData()
 //					self?.tableView.layoutIfNeeded()
 //					self?.tableView.beginUpdates()
@@ -67,7 +68,14 @@ class CommentsViewController: UIViewController {
 							if success {
 								print("reviews have been updated")
 								DispatchQueue.main.async { [weak self] in
-									self?.tableView.reloadData()
+									self?.tableView.reloadData(completion: {
+//										self?.tableView.beginUpdates()
+//										self?.tableView.endUpdates()
+//										self?.tableView.setNeedsLayout()
+//										self?.tableView.layoutIfNeeded()
+									})
+									//self?.tableView.beginUpdates()
+									//self?.tableView.endUpdates()
 								}
 							}
 							else{
@@ -95,7 +103,7 @@ class CommentsViewController: UIViewController {
 	func setupTableView(){
 		tableView.dataSource = self
 		tableView.delegate = self
-		tableView.alwaysBounceVertical = true
+		//tableView.alwaysBounceVertical = true
 		tableView.rowHeight = UITableView.automaticDimension
 		tableView.estimatedRowHeight = 300
 	}
@@ -120,61 +128,65 @@ extension CommentsViewController: UITableViewDataSource {
 		return  self.dataProvider.dataStore.reviewItems.count
 	}
 	
-	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 		
 		
-		guard let cell = cell as? CommentCell else { return }
-		if let name = self.dataProvider.dataStore.reviewItems[indexPath.row]?.fullName {
-			cell.updateName(name: name, animated: false)
-		}
-		
-		if let text = self.dataProvider.dataStore.reviewItems[indexPath.row]?.text {
-			cell.updateText(text:text, animated: false)
-		}
-		
-		if let rating = self.dataProvider.dataStore.reviewItems[indexPath.row]?.rate {
+//		guard let cell = cell as? CommentCell else { return }
+//		if let name = self.dataProvider.dataStore.reviewItems[indexPath.row]?.fullName {
+//			cell.updateName(name: name, animated: false)
+//		}
+//
+//		if let text = self.dataProvider.dataStore.reviewItems[indexPath.row]?.text {
+//			cell.updateText(text:text, animated: false)
+//		}
+//
+//		if let rating = self.dataProvider.dataStore.reviewItems[indexPath.row]?.rate {
+//
+//			cell.updateRating(rating: rating, animated: false)
+//		}
+//
+//		if let username = self.dataProvider.dataStore.reviewItems[indexPath.row]?.username  {
+//			if username == self.dataProvider.dataStore.userProfile?.username {
+//				if let image = self.dataProvider.dataStore.userProfile?.portrait {
+//					cell.updateImage(image: image, animated: false, row: indexPath.row)
+//				}
+//			}
+//		}
+		//cell.sizeToFit()
+		//cell.layoutIfNeeded()
 			
-			cell.updateRating(rating: rating, animated: false)
-		}
-		
-		if let username = self.dataProvider.dataStore.reviewItems[indexPath.row]?.username  {
-			if username == self.dataProvider.dataStore.userProfile?.username {
-				if let image = self.dataProvider.dataStore.userProfile?.portrait {
-					cell.updateImage(image: image, animated: false, row: indexPath.row)
-				}
-			}
-		}
-		cell.layoutIfNeeded()
-			
 		
 		
-	}
+//	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell",
 												 for: indexPath as IndexPath) as! CommentCell
 		
-		if let name = self.dataProvider.dataStore.reviewItems[indexPath.row]?.fullName {
-			cell.updateName(name: name, animated: false)
-		}
+//		if let name = self.dataProvider.dataStore.reviewItems[indexPath.row]?.fullName {
+//			cell.updateName(name: name, animated: false)
+//		}
 		
 		if let text = self.dataProvider.dataStore.reviewItems[indexPath.row]?.text {
-			cell.updateText(text:text, animated: false)
+			cell.lbText.text = text
+			//cell.updateText(text: text)
+			//tableView.beginUpdates()
+			//tableView.endUpdates()
 		}
 		
-		if let rating = self.dataProvider.dataStore.reviewItems[indexPath.row]?.rate {
-			
-			cell.updateRating(rating: rating, animated: false)
-		}
-		
-		if let username = self.dataProvider.dataStore.reviewItems[indexPath.row]?.username  {
-			if username == self.dataProvider.dataStore.userProfile?.username {
-				if let image = self.dataProvider.dataStore.userProfile?.portrait {
-					cell.updateImage(image: image, animated: false, row: indexPath.row)
-				}
-			}
-		}
-		cell.sizeToFit() 
+//		if let rating = self.dataProvider.dataStore.reviewItems[indexPath.row]?.rate {
+//
+//			cell.updateRating(rating: rating, animated: false)
+//		}
+//
+//		if let username = self.dataProvider.dataStore.reviewItems[indexPath.row]?.username  {
+//			if username == self.dataProvider.dataStore.userProfile?.username {
+//				if let image = self.dataProvider.dataStore.userProfile?.portrait {
+//					cell.updateImage(image: image, animated: false, row: indexPath.row)
+//				}
+//			}
+//		}
+		//cell.sizeToFit()
 		//cell.setNeedsLayout()
 		//cell.layoutIfNeeded()
 		return cell

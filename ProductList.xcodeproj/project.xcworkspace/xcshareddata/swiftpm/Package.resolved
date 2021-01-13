@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "IQKeyboardManagerSwift",
+        "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager.git",
+        "state": {
+          "branch": null,
+          "revision": "4dc6bc7d1c9747bd0c261c8c055903f9fdef91f7",
+          "version": "6.5.6"
+        }
+      },
+      {
         "package": "JGProgressHUD",
         "repositoryURL": "https://github.com/JonasGessner/JGProgressHUD.git",
         "state": {
@@ -20,12 +29,48 @@
         }
       },
       {
+        "package": "Nantes",
+        "repositoryURL": "https://github.com/instacart/Nantes.git",
+        "state": {
+          "branch": "master",
+          "revision": "a82b861bc7863b22c798601e28ff2e8ec86ce4ee",
+          "version": null
+        }
+      },
+      {
+        "package": "ProgressHUD",
+        "repositoryURL": "https://github.com/relatedcode/ProgressHUD.git",
+        "state": {
+          "branch": "master",
+          "revision": "e5a9b26342e3612d8697490790b896eda1cb3bfa",
+          "version": null
+        }
+      },
+      {
         "package": "Reachability",
         "repositoryURL": "https://github.com/ashleymills/Reachability.swift",
         "state": {
           "branch": null,
           "revision": "c01bbdf2d633cf049ae1ed1a68a2020a8bda32e2",
           "version": "5.1.0"
+        }
+      },
+      {
+        "package": "SwiftHEXColors",
+        "repositoryURL": "https://github.com/thii/SwiftHEXColors.git",
+        "state": {
+          "branch": "master",
+          "revision": "02cc013d32bc3d4eba45ece5a84256a6e70a6e41",
+          "version": null
+        }
+      },
+      {
+        "package": "Validator",
+        "repositoryURL": "https://github.com/adamwaite/Validator.git",
+        "state": {
+          "branch": "master",
+          "revision": "8dacfee6a28b1b8ffe3aa082b0647328dde454d7",
+          "version": null
         }
       }
     ]

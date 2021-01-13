@@ -106,11 +106,12 @@ class DataProvider: DataProviderProtocol {
 			reviewsLoading = true
 			
 			if isReachable {
+				print("getReviews api request")
 				api.getReviews(productId: productId, token: self.dataStore.token) {[weak self] (reviewsModels, data, response, error) in
 					self?.reviewsLoading = false
 					
 					guard let reviewsModels = reviewsModels else { completion(false); return}
-					
+					print("Reviews received from api")
 					var reviewTableModels = [ReviewTableModel]()
 					let formatter = DateFormatter()
 					formatter.dateFormat = "YYYY-MM-DD'T'HH:mm:ss.SSS'Z'"
@@ -139,10 +140,11 @@ class DataProvider: DataProviderProtocol {
 				}
 			}
 			else {
+				print("loading Reviews from database")
 				database.getReviews(productId: productId) {[weak self] (reviews) in
 					self?.reviewsLoading = false
 					guard let reviews = reviews else { completion(false); return}
-					
+					print("Reviews receiverd from database")
 					if  reviews.count > 0 {
 						self?.dataStore.reviewItems.removeAll()
 						self?.dataStore.reviewItems.append(reviews)
@@ -162,11 +164,12 @@ class DataProvider: DataProviderProtocol {
 			productsLoading = true
 			
 			if isReachable {
+				print("getProducts api request")
 				api.getProducts(token: self.dataStore.token) {[weak self] (products, data, response, error) in
 					self?.productsLoading = false
 					
 					guard let products = products else { completion(false); return}
-					
+					print("Products received from api")
 					var productTableModels = [ProductTableModel]()
 					let formatter = DateFormatter()
 					formatter.dateFormat = "YYYY-MM-DD'T'HH:mm:ss.SSS'Z'"
@@ -190,10 +193,11 @@ class DataProvider: DataProviderProtocol {
 				}
 			}
 			else {
+				print("Loading Products from database")
 				database.getProducts() {[weak self] (products) in
 					self?.productsLoading = false
 					guard let products = products else { completion(false); return}
-					
+					print("Products received from database")
 					if  products.count > 0 {
 						self?.dataStore.productItems.removeAll()
 						self?.dataStore.productImageUrls.removeAll()
@@ -217,10 +221,13 @@ class DataProvider: DataProviderProtocol {
 	func sendRegister(uname: String, pw: String, completion: @escaping (Bool, String?) -> ()) {
 		if registerLoading == false {
 			self.registerLoading = true
+			print("sendRegister api request")
 			api.sendRegister(uname: uname, pw: pw) {[weak self] (registerModel, data, response, error) in
 				self?.registerLoading = false
 				guard let registerModel = registerModel else { completion(false, ""); return}
+				print("Register response received from api")
 				if registerModel.success == true {
+					print("SignUp successfull")
 					self?.dataStore.token = registerModel.token
 					self?.dataStore.isLoggedIn = true
 					completion(true, "")
@@ -229,6 +236,7 @@ class DataProvider: DataProviderProtocol {
 					self?.dataStore.userProfile = profile
 				}
 				else{
+					print("SignUp failed")
 					completion(false, registerModel.message)
 				}
 				
@@ -239,10 +247,13 @@ class DataProvider: DataProviderProtocol {
 	func sendLogin(uname: String, pw: String, completion: @escaping (Bool, String?) -> ()) {
 		if loginLoading == false {
 			self.loginLoading = true
+			print("sendLogin api request")
 			api.sendLogin(uname: uname, pw: pw) {[weak self] (loginModel, data, response, error) in
 				self?.loginLoading = false
 				guard let loginModel = loginModel else { completion(false, error?.localizedDescription); return}
+				print("Login response received from api")
 				if loginModel.success == true {
+					print("Login successfull")
 					self?.dataStore.token = loginModel.token
 					self?.dataStore.isLoggedIn = true
 					completion(true, nil)
@@ -258,7 +269,7 @@ class DataProvider: DataProviderProtocol {
 				}
 				else{
 					
-				
+					print("SignUp failed")
 					completion(false, loginModel.message)
 					
 				}
@@ -271,9 +282,11 @@ class DataProvider: DataProviderProtocol {
 		guard let token = self.dataStore.token else { print("no token!"); completion(false); return;}
 		if sendReviewLoading == false {
 			sendReviewLoading = true
+			print("sendReview api request")
 			api.sendReview(productId: productId, rate: rate, text: text, token: token) {[weak self] (reviewModel, data, response, error) in
 				self?.sendReviewLoading = false
 				guard let reviewModel = reviewModel else { completion(false); return}
+				print("sendReview response received from api")
 				if reviewModel.success == true {
 					completion(true)
 				}

@@ -7,14 +7,18 @@
 //
 
 import UIKit
-import JGProgressHUD
+
+protocol ProductsDataStore
+{
+	//var name: String { get set }
+}
 class ProductsViewController: UIViewController {
 	@IBOutlet weak var tableView: UITableView!
 	let dataProvider: DataProviderProtocol = DataProvider.shared
 	let productImageLoadingQueue = OperationQueue()
 	var productImageLoadingOperations = ThreadSafeDictionary<IndexPath, DataLoadOperation>(queueLabel: "com.vl.productImages")
-	let hud = JGProgressHUD()
-	//var productStubItems = SynchronizedArray<Int>()
+
+
 	override func viewDidLoad() {
         super.viewDidLoad()
 		self.navigationItem.title = "Products"
@@ -22,11 +26,10 @@ class ProductsViewController: UIViewController {
 			setupProfileButton()
 		}
 		self.dataProvider.database.clearIfNeeded()
-		//self.productStubItems.append([Int](repeating: 0, count: infiniteNumber))
-		hud.show(in: self.view)
+		showHud()
 		self.dataProvider.getProducts { [weak self] (success) in
 			DispatchQueue.main.async { [weak self] in
-				self?.hud.dismiss()
+				self?.removeHud()
 				self?.setupTableView()
 				self?.tableView.reloadData()
 			}
@@ -37,8 +40,7 @@ class ProductsViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		
+		self.navigationController?.unHideNavigationBar()
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
